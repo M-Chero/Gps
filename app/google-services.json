@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "278212696893",
+    "project_id": "gps-system-eeb27",
+    "storage_bucket": "gps-system-eeb27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278212696893:android:bf93819368f6d371d74354",
+        "android_client_info": {
+          "package_name": "com.example.loginregistration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278212696893-ckih501s2deaepkgn22f3ebl9gvqqb0r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.loginregistration",
+            "certificate_hash": "657f1d1ee03631b1a289566dd3f51d2e04c143ce"
+          }
+        },
+        {
+          "client_id": "278212696893-7uk2jfdo7mdu7k3uc36ssu4d8vp9bsjm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD88GwwPUAZVMwajojMwX9cyCH5svmdmPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278212696893-7uk2jfdo7mdu7k3uc36ssu4d8vp9bsjm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
