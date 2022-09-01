@@ -3,6 +3,7 @@ package com.example.loginregistration;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -20,10 +21,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,11 +41,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private GoogleMap map;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     Spinner spType;
     Button btFind;
     SupportMapFragment supportMapFragment;
-    GoogleMap map;
-    FusedLocationProviderClient fusedLocationProviderClient;
+
     double currentLat = 0, currentLong = 0;
 
     @Override
@@ -55,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
 
-        String[] placeTypeList = {"atm", "bank", "hospital", "movie_theater", "restaurant"};
+        String[] placeTypeList = {"bank", "hospital", "restaurant"};
 
-        String[] placeNameList = {"ATM", "Bank", "Hospital", "Movie Theater", "Restaurant"};
+        String[] placeNameList = {"Bank", "Hospital", "Restaurant"};
 
 
         spType.setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, placeNameList));
@@ -67,40 +72,36 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
 
-        }else{
+        } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
 
-        btFind.setOnClickListener(new View.OnClickListener(){
+        btFind.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 int i = spType.getSelectedItemPosition();
 
-                String url ="https://maps.googlemaps.com/maps/api/place/nearbysearch/json"+"?location="+ currentLat+","+currentLong + "&radius=5000"+"&types"+placeTypeList[i]+"&sensor=true"+"&key"+getResources().getString(R.string.google_map_key);
+                String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + "?location=" + currentLat + "," + currentLong + "&radius=5000" + "&types" + placeTypeList[i] + "&sensor=true" + "&key" + getResources().getString(R.string.google_map_key);
 
-//                new PlaceTask().execute
+                 new PlaceTask().execute(url);
             }
         });
 
     }
 
+
     private void getCurrentLocation() {
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+
+
         }
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
 
-                if (location !=null){
+                if (location != null) {
 
                     currentLat = location.getLatitude();
 
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onMapReady(@NonNull GoogleMap googleMap) {
                             map = googleMap;
 
-                             map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLat,currentLong),10));
+                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLat, currentLong), 17));
 
                         }
                     });
@@ -119,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
 
@@ -149,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            new ParserTask().execute(s);
+            new ParserTask().execute();
 
         }
     }

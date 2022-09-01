@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">LoginRegistration</string>
-    <string name="google_map_key">AIzaSyA3UmHYshZtleyQMsbeGSiXxUWI35FWTg8</string>
+    <string name="app_name">My Essentials Finder✔️</string>
+    <string name="google_map_key">AIzaSyA7OVjSnKPgUav7kr14ztJlP89sXghsWPY</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
